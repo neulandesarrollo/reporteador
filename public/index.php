@@ -204,10 +204,10 @@ include 'assets/js/reporter.php';
 
 <script>  
 $('.pick').each(function(){
-    $(this).datepicker({ dayNamesMin: [ "Dom", "Lu", "Ma", "Me", "Ju", "Ve", "Sa" ]});
+    $(this).datepicker({ dayNamesMin: [ "Dom", "Lun", "Ma", "Mie", "Ju", "Ve", "Sa" ]});
 });
 
 $('.pickVisita').each(function(){
-    $(this).datepicker({ dayNamesMin: [ "Dom", "Lu", "Ma", "Me", "Ju", "Ve", "Sa" ]});
+    $(this).datepicker({ dayNamesMin: [ "Dom", "Lun", "Ma", "Mie", "Ju", "Ve", "Sa" ]});
 });
 </script>
