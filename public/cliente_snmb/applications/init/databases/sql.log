@@ -1,0 +1,691 @@
+timestamp: 2016-10-19T16:05:14.790000
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:15.040000
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:15.181000
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2016-10-19T16:05:15.572000
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-10-19T16:05:16.228000
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:16.634000
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-10-19T16:05:16.743000
+CREATE TABLE Version_cliente(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    v CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:16.790000
+CREATE TABLE Cat_tipo_conglomerado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:16.837000
+CREATE TABLE Cat_estado_conglomerado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    clave_ent INTEGER,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:16.868000
+CREATE TABLE Cat_tenencia_conglomerado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:16.884000
+CREATE TABLE Cat_suelo_conglomerado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:16.915000
+CREATE TABLE Cat_vegetacion_conglomerado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:16.947000
+CREATE TABLE Cat_numero_sitio(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:16.978000
+CREATE TABLE Cat_elipsoide(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:17.384000
+CREATE TABLE Cat_resolucion_camara(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:18.337000
+CREATE TABLE Cat_sensibilidad_camara(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:18.822000
+CREATE TABLE Cat_condiciones_ambientales(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:18.993000
+CREATE TABLE Cat_numero_transecto(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:19.056000
+CREATE TABLE Cat_numero_individuos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:19.118000
+CREATE TABLE Cat_conabio_invasoras(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:19.197000
+CREATE TABLE Cat_municipio_conglomerado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    clave_ent INTEGER,
+    clave_mun INTEGER,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:19.853000
+CREATE TABLE Cat_material_carbono(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:20.806000
+CREATE TABLE Cat_grado_carbono(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre INTEGER
+);
+success!
+timestamp: 2016-10-19T16:05:21.103000
+CREATE TABLE Cat_transecto_direccion(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:21.165000
+CREATE TABLE Cat_forma_vida(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:21.243000
+CREATE TABLE Cat_forma_vida_arboles_grandes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:21.353000
+CREATE TABLE Cat_cambios_arboles_grandes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:21.368000
+CREATE TABLE Cat_tipo_impacto(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:21.400000
+CREATE TABLE Cat_severidad_impactos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:21.431000
+CREATE TABLE Cat_agente_impactos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:21.493000
+CREATE TABLE Cat_estatus_impactos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:22.259000
+CREATE TABLE Cat_prop_afectacion(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:23.118000
+CREATE TABLE Cat_incendio(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:23.368000
+CREATE TABLE Cat_conabio_aves(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:23.509000
+CREATE TABLE Conglomerado_muestra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre INTEGER,
+    fecha_visita DATE,
+    predio CHAR(512),
+    compania CHAR(512),
+    tipo CHAR(512),
+    estado CHAR(512),
+    municipio CHAR(512),
+    tenencia CHAR(512),
+    uso_suelo_tipo CHAR(512),
+    monitoreo_tipo CHAR(512),
+    vegetacion_tipo CHAR(512),
+    perturbado CHAR(1),
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:23.603000
+CREATE TABLE Formato_campo(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:23.900000
+CREATE TABLE Sitio_muestra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    sitio_numero CHAR(512),
+    existe CHAR(1),
+    lat_grado INTEGER,
+    lat_min INTEGER,
+    lat_seg DOUBLE,
+    lon_grado INTEGER,
+    lon_min INTEGER,
+    lon_seg DOUBLE,
+    altitud DOUBLE,
+    gps_error DOUBLE,
+    elipsoide CHAR(512),
+    hay_evidencia CHAR(1)
+);
+success!
+timestamp: 2016-10-19T16:05:24.525000
+CREATE TABLE Imagen_referencia_sitio(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:24.853000
+CREATE TABLE Camara(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    nombre CHAR(512),
+    fecha_inicio DATE,
+    fecha_termino DATE,
+    hora_inicio TIME,
+    hora_termino TIME,
+    lat_grado INTEGER,
+    lat_min INTEGER,
+    lat_seg DOUBLE,
+    lon_grado INTEGER,
+    lon_min INTEGER,
+    lon_seg DOUBLE,
+    altitud DOUBLE,
+    gps_error DOUBLE,
+    elipsoide CHAR(512),
+    condiciones_ambientales CHAR(512),
+    distancia_centro DOUBLE,
+    azimut DOUBLE,
+    resolucion CHAR(512),
+    sensibilidad CHAR(512),
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:24.947000
+CREATE TABLE Imagen_referencia_camara(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    camara_id INTEGER REFERENCES Camara (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:25.118000
+CREATE TABLE Archivo_camara(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    camara_id INTEGER REFERENCES Camara (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512),
+    presencia CHAR(1),
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    numero_individuos INTEGER
+);
+success!
+timestamp: 2016-10-19T16:05:25.290000
+CREATE TABLE Grabadora(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    nombre CHAR(512),
+    fecha_inicio DATE,
+    fecha_termino DATE,
+    hora_inicio TIME,
+    hora_termino TIME,
+    lat_grado INTEGER,
+    lat_min INTEGER,
+    lat_seg DOUBLE,
+    lon_grado INTEGER,
+    lon_min INTEGER,
+    lon_seg DOUBLE,
+    altitud DOUBLE,
+    gps_error DOUBLE,
+    elipsoide CHAR(512),
+    condiciones_ambientales CHAR(512),
+    microfonos_mojados CHAR(1),
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:25.556000
+CREATE TABLE Imagen_referencia_grabadora(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    grabadora_id INTEGER REFERENCES Grabadora (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:25.931000
+CREATE TABLE Imagen_referencia_microfonos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    grabadora_id INTEGER REFERENCES Grabadora (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:26.462000
+CREATE TABLE Archivo_referencia_grabadora(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    grabadora_id INTEGER REFERENCES Grabadora (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:26.525000
+CREATE TABLE Archivo_grabadora(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    grabadora_id INTEGER REFERENCES Grabadora (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512),
+    es_audible CHAR(1)
+);
+success!
+timestamp: 2016-10-19T16:05:26.587000
+CREATE TABLE Transecto_muestra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    transecto_numero CHAR(512),
+    existe CHAR(1),
+    tecnico CHAR(512),
+    fecha DATE,
+    hora_inicio TIME,
+    hora_termino TIME,
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:26.681000
+CREATE TABLE Especie_invasora(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    transecto_muestra_id INTEGER REFERENCES Transecto_muestra (id) ON DELETE CASCADE,
+    nombre_en_lista CHAR(1),
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    numero_individuos CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:26.775000
+CREATE TABLE Archivo_especie_invasora(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    especie_invasora_id INTEGER REFERENCES Especie_invasora (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:26.884000
+CREATE TABLE Huella_excreta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    transecto_muestra_id INTEGER REFERENCES Transecto_muestra (id) ON DELETE CASCADE,
+    es_huella CHAR(1),
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    largo DOUBLE,
+    ancho DOUBLE
+);
+success!
+timestamp: 2016-10-19T16:05:27.103000
+CREATE TABLE Archivo_huella_excreta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    huella_excreta_id INTEGER REFERENCES Huella_excreta (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:27.759000
+CREATE TABLE Especie_invasora_extra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    esta_dentro_conglomerado CHAR(1),
+    tecnico CHAR(512),
+    fecha DATE,
+    hora TIME,
+    lat_grado INTEGER,
+    lat_min INTEGER,
+    lat_seg DOUBLE,
+    lon_grado INTEGER,
+    lon_min INTEGER,
+    lon_seg DOUBLE,
+    altitud DOUBLE,
+    gps_error DOUBLE,
+    elipsoide CHAR(512),
+    nombre_en_lista CHAR(1),
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    numero_individuos CHAR(512),
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:28.087000
+CREATE TABLE Archivo_especie_invasora_extra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    especie_invasora_extra_id INTEGER REFERENCES Especie_invasora_extra (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:28.493000
+CREATE TABLE Huella_excreta_extra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    esta_dentro_conglomerado CHAR(1),
+    tecnico CHAR(512),
+    fecha DATE,
+    hora TIME,
+    lat_grado INTEGER,
+    lat_min INTEGER,
+    lat_seg DOUBLE,
+    lon_grado INTEGER,
+    lon_min INTEGER,
+    lon_seg DOUBLE,
+    altitud DOUBLE,
+    gps_error DOUBLE,
+    elipsoide CHAR(512),
+    es_huella CHAR(1),
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    largo DOUBLE,
+    ancho DOUBLE,
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:28.556000
+CREATE TABLE Archivo_huella_excreta_extra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    huella_excreta_extra_id INTEGER REFERENCES Huella_excreta_extra (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:28.603000
+CREATE TABLE Especimen_restos_extra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    esta_dentro_conglomerado CHAR(1),
+    tecnico CHAR(512),
+    fecha DATE,
+    hora TIME,
+    lat_grado INTEGER,
+    lat_min INTEGER,
+    lat_seg DOUBLE,
+    lon_grado INTEGER,
+    lon_min INTEGER,
+    lon_seg DOUBLE,
+    altitud DOUBLE,
+    gps_error DOUBLE,
+    elipsoide CHAR(512),
+    es_especimen CHAR(1),
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    numero_individuos CHAR(512),
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:28.681000
+CREATE TABLE Archivo_especimen_restos_extra(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    especimen_restos_extra_id INTEGER REFERENCES Especimen_restos_extra (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:28.743000
+CREATE TABLE Punto_conteo_aves(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    tecnico CHAR(512),
+    fecha DATE,
+    hora_inicio TIME,
+    hora_termino TIME,
+    condiciones_ambientales CHAR(512),
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:28.822000
+CREATE TABLE Avistamiento_aves(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    punto_conteo_aves_id INTEGER REFERENCES Punto_conteo_aves (id) ON DELETE CASCADE,
+    nombre_comun_en_lista CHAR(1),
+    nombre_comun CHAR(512),
+    nombre_cientifico_en_lista CHAR(1),
+    nombre_cientifico CHAR(512),
+    es_visual CHAR(1),
+    es_sonora CHAR(1),
+    numero_individuos INTEGER,
+    distancia_aproximada DOUBLE
+);
+success!
+timestamp: 2016-10-19T16:05:28.884000
+CREATE TABLE Archivo_avistamiento_aves(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    avistamiento_aves_id INTEGER REFERENCES Avistamiento_aves (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:29.025000
+CREATE TABLE Transecto_ramas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    direccion CHAR(512),
+    pendiente INTEGER,
+    abundancia_1h INTEGER,
+    abundancia_10h INTEGER,
+    abundancia_100h INTEGER
+);
+success!
+timestamp: 2016-10-19T16:05:29.415000
+CREATE TABLE Rama_1000h(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    transecto_ramas_id INTEGER REFERENCES Transecto_ramas (id) ON DELETE CASCADE,
+    diametro DOUBLE,
+    grado INTEGER
+);
+success!
+timestamp: 2016-10-19T16:05:29.853000
+CREATE TABLE Punto_carbono(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    transecto_direccion CHAR(512),
+    transecto_distancia INTEGER,
+    material_tipo CHAR(512),
+    grosor INTEGER,
+    peso_humedo DOUBLE,
+    peso_humedo_muestra DOUBLE,
+    peso_seco_muestra DOUBLE
+);
+success!
+timestamp: 2016-10-19T16:05:30.384000
+CREATE TABLE Arbol_transecto(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    transecto CHAR(512),
+    individuo_numero INTEGER,
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    forma_vida CHAR(512),
+    distancia_copa DOUBLE,
+    altura DOUBLE
+);
+success!
+timestamp: 2016-10-19T16:05:30.728000
+CREATE TABLE Arbol_cuadrante(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sitio_muestra_id INTEGER REFERENCES Sitio_muestra (id) ON DELETE CASCADE,
+    individuo_numero INTEGER,
+    existe CHAR(1),
+    distancia DOUBLE,
+    azimut DOUBLE,
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    altura DOUBLE,
+    diametro_copa DOUBLE,
+    diametro_normal CHAR(512),
+    forma_vida CHAR(512),
+    cambios CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:30.806000
+CREATE TABLE Informacion_epifitas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    helechos_observados CHAR(1),
+    orquideas_observadas CHAR(1),
+    musgos_observados CHAR(1),
+    liquenes_observados CHAR(1),
+    cactaceas_observadas CHAR(1),
+    bromeliaceas_observadas CHAR(1),
+    otras_observadas CHAR(1),
+    nombre_otras CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:30.853000
+CREATE TABLE Impacto_actual(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    tipo CHAR(512),
+    hay_evidencia CHAR(1),
+    en_vegetacion CHAR(512),
+    en_suelo CHAR(512),
+    comentario TEXT
+);
+success!
+timestamp: 2016-10-19T16:05:30.900000
+CREATE TABLE Plaga(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    agente CHAR(512),
+    nombre_comun CHAR(512),
+    nombre_cientifico CHAR(512),
+    prop_afectacion_arborea CHAR(512),
+    prop_afectacion_repoblado CHAR(512),
+    esta_activa CHAR(1)
+);
+success!
+timestamp: 2016-10-19T16:05:30.915000
+CREATE TABLE Archivo_plaga(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plaga_id INTEGER REFERENCES Plaga (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:30.962000
+CREATE TABLE Incendio(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conglomerado_muestra_id INTEGER REFERENCES Conglomerado_muestra (id) ON DELETE CASCADE,
+    hay_evidencia CHAR(1),
+    es_anio_actual CHAR(1),
+    hay_evidencia_recuperacion CHAR(1),
+    tipo CHAR(512),
+    prop_afectacion_herbacea CHAR(512),
+    prop_afectacion_arbustiva CHAR(512),
+    prop_afectacion_arborea CHAR(512),
+    prop_copa_quemada CHAR(512)
+);
+success!
+timestamp: 2016-10-19T16:05:30.962000
+CREATE TABLE Archivo_incendio(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    incendio_id INTEGER REFERENCES Incendio (id) ON DELETE CASCADE,
+    archivo_nombre_original CHAR(512),
+    archivo CHAR(512)
+);
+success!

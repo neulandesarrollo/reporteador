@@ -1,0 +1,311 @@
+{{extend 'layout.html'}}
+{{block head}}
+	<style type="text/css">
+
+		.Tabla .generic-widget, .Estatica
+		{
+			margin-right: 2cm;
+			width: 4.4cm;
+		}
+
+		#enviar
+		{
+			float: left;
+		}
+
+	</style>
+{{end}}
+
+<form action="" enctype="multipart/form-data" method="post">
+	<input type="hidden" name="_formname" value="formaArchivosCamaraHTML"/>
+	<fieldset>
+		<legend>
+			Trampa cámara: fotografías y videos
+		</legend>
+		<table class="Tabla">
+			<tr>
+				<td>
+					<label for="conglomerado_muestra_id">Conglomerado</label>
+					<!-- La clase estática se usa para que, en tablas de un sólo
+                    renglón, no se modifique el tamaño de la misma cuando se 
+                    desaparecen algunos campos-->
+					<div class="Estatica">
+						<select class="generic-widget obligatorio" name="conglomerado_muestra_id" id="conglomerado_muestra_id">
+							<option value=""/>
+							{{for conglomerado in listaConglomerado:}}
+								<option value="{{=conglomerado.id}}">
+									{{=conglomerado.nombre}}
+								</option>
+							{{pass}}
+						</select>
+					</div>
+				</td>                
+				<td>
+					<div class="Estatica">
+						<label for="sitio_muestra_id">Sitio</label>
+						<!-- El ID es para cambiar la lista de sitios asociados
+						a un conglomerado dinámicamente, utilizando AJAX-->
+						<div id="shadow_clone">
+							<select class="generic-widget" name="sitio_muestra_id" id="sitio_muestra_id">
+								<option value=""/>
+							</select>
+						</div>
+					</div>
+				</td>
+				<td>
+					<!--<div class="Estatica">-->
+						<!-- Para más de una cámara por sitio, descomentar esto
+						<label for="camara_id">Cámara</label>
+						El ID es para cambiar la lista de sitios asociados a un
+						conglomerado dinámicamente, utilizando AJAX
+						<div id="shadow_clone_2">
+							<select class="generic-widget" name="camara_id" id="camara_id">
+								<option value=""/>
+							</select>
+						</div>
+					-->
+
+					<!-- el siguiente div guardará la información de la cámara
+					declarada en determinado conglomerado y sitio, si es que
+					existe. La clase Mensaje se usa para esconder el campo-->
+					<div id="shadow_clone_2" class="Mensaje">
+						<input type="hidden" name="camara_id" id="camara_id" value=""/>
+					</div>
+					<!--</div>-->
+				</td>
+			</tr>
+		</table>
+
+		<hr/>
+
+		<!--Ahora no se seleccionarán los archivos a subir en la vista, sino que,
+		a la hora de presionar el botón siguiente, se validará:
+		1. Que se haya encontrado una cámara declarada (ésto implica que se
+		seleccionaron un conglomerado y un sitio).
+		2. Que el registro de los archivos asociados a esa cámara no se haya
+		realizado con anterioridad.
+		3. Que la carpeta nombre_cgl_aaaa-mm-dd/c exista.
+		4. Que dicha carpeta no esté vacía
+
+		Si la validación es exitosa, ésto quedará registrado en el campo
+		"archivos_validados".
+		-->
+
+		<button type="button" id="validar_archivos">Validar archivos</button>
+		<input type="hidden" name="archivos_validados" id="archivos_validados" value=""/>
+
+		<!-- Los siguientes campos guardan los datos para construir la carpeta
+		nombre_cgl_aaaa-mm-dd/c, y poder registrar los archivos en la base. Ésto
+		se hace de esta manera puesto que al "Validar archivos" se hace obtienen
+		estos valores, y queremos reciclarlos (no recalcularlos).
+
+		Sus contenidos se resetean cuando una validación de archivos caduca, es
+		decir, cuando se cambia la selección en "conglomerado_muestra_id" ó
+		"sitio_muestra_id"-->
+
+		<input type="hidden" name="conglomerado_muestra_nombre" id="conglomerado_muestra_nombre" value=""/>
+		<input type="hidden" name="conglomerado_muestra_fecha_visita" id="conglomerado_muestra_fecha_visita" value=""/>
+
+		<!--<input class="obligatorio" type="file" id="archivos_camara" name="archivos_camara" multiple/>-->
+
+	</fieldset>
+	<br/>
+	<br/>
+	<input type="submit" value="Enviar" class="btn" id="enviar"/>
+</form>
+
+<br/>
+<br/>
+
+<fieldset>
+	<legend>
+		Revisión de registros
+	</legend>
+	{{=grid}}
+</fieldset>
+
+<script>
+
+	//////////////////////////////////////////
+	// AJAX para llenar la combobox con los sitios existentes al elegir el conglomerado
+	//////////////////////////////////////////
+
+	$('#conglomerado_muestra_id').change(
+		function()
+		{
+
+			/* Como a la hora de seleccionar el conglomerado, se resetea la combobox
+			de sitio, desaparece el mensaje de camara: */
+
+			$('.Mensaje').hide();
+
+			$('#sitio_muestra_id, #camara_id').remove();
+
+			/* Al cambiar el conglomerado elegido, se elimina la validación de
+			los archivos (del conglomerado elegido anteriormente)*/
+
+			$('#archivos_validados, #conglomerado_muestra_nombre, ' +
+				'#conglomerado_muestra_fecha_visita').val("");
+
+			/* ajax es una función de Web2py que simplifica la función homónima de
+			JQuery recibe el URL destino, los nombres de los campos que se enviarán
+			y el ID del elemento donde se insertará la respuesta. */
+
+			ajax("{{=URL('asignarSitios')}}", ['conglomerado_muestra_id'], 'shadow_clone');
+
+			ajax("{{=URL('asignarCamara')}}", ['sitio_muestra_id'], 'shadow_clone_2');
+		}
+	);
+
+	//////////////////////////////////////////
+	// AJAX para mandar la información con la cámara declarada al elegir un sitio
+	//////////////////////////////////////////
+
+	$('#shadow_clone').on('change', '#sitio_muestra_id', function(){
+
+			/* Al cambiar el sitio elegido, se elimina la validación de
+			los archivos */
+
+			$('#archivos_validados, #conglomerado_muestra_nombre, ' +
+				'#conglomerado_muestra_fecha_visita').val("");
+
+			$.ajax
+			(
+			{
+				type: "POST",
+				data: $('#sitio_muestra_id').serialize(),
+				url: "{{=URL('asignarCamara')}}",
+				async: false,
+				success: function(resultado)
+				{
+					$("#shadow_clone_2").html(resultado);
+				}
+			}
+			);
+			if($(this).val())
+			{
+				$('.Mensaje').show();
+			}
+			else
+			{
+				$('.Mensaje').hide();
+			}
+		}
+	);
+
+	//////////////////////////////////////////
+	// AJAX para validar los archivos en cuanto se presione el botón en la forma
+	//////////////////////////////////////////
+
+	$('#validar_archivos').click(
+		function(){
+
+			if(!$('#camara_id').val())
+				alert('Favor de verificar que una cámara esté declarada en el ' +
+					'conglomerado y sitio seleccionados');
+			else
+				/* Si se encontró un valor para "camara_id", entonces tampoco están
+			vacíos "conglomerado_muestra_id" ni "sitio_muestra_id" */
+				$.ajax
+				(
+				{
+					type: "POST",
+					data: $('#conglomerado_muestra_id, #camara_id').serialize(),
+					dataType: 'json',
+					url: "{{=URL('validarArchivos')}}",
+					async: false,
+					success: function(resultado)
+					{
+						alert(resultado.mensaje);
+						if(resultado.flag == 1){
+							$('#archivos_validados').val('true');
+							$('#conglomerado_muestra_nombre').val(
+								resultado.conglomerado_muestra_nombre);
+							$('#conglomerado_muestra_fecha_visita').val(
+								resultado.conglomerado_muestra_fecha_visita);
+						}
+					}
+				}
+				);
+		}
+	)
+
+	//////////////////////////////////////////
+	// Este código se ejecuta en cuanto el html termina de llegar al navegador:
+	//////////////////////////////////////////
+
+	$(document).ready
+	(
+		function()
+		{
+			alert('Prerequisitos para utilizar esta pestaña:\n' +
+				'1. La carpeta "conglomerados/cgl_aaaa-mm-dd/c" ya debe tener ' +
+				'guardados los archivos (JPG y AVI) correspondientes a la fototrampa ' +
+				'correspondiente.\n' +
+				'2. Dicha fototrampa ya debe haber sido declarada, en la pestaña ' +
+				'de "Información de trampa cámara."\n\n' +
+				'Procedimiento:\n' + 
+				'1. Elegir el conglomerado y sitio correspondientes a la fototrampa ' +
+				'cuyos archivos quieren ser declarados.\n' +
+				'2. Hacer click en "Validar archivos". Con esto se validarán que ' +
+				'los archivos JPG y AVI hayan sido introducidos en la carpeta ' +
+				'anterior.\n' +
+				'3. Al pasar la validación, podrá registrar los archivos en la ' +
+				'base de datos.');
+		}
+	)
+
+	//////////////////////////////////////////
+	// Validaciones a la hora de enviar la forma
+	//////////////////////////////////////////
+
+	$('form').submit
+	(
+	   function()
+	   {
+			//Validando los campos obligatorios
+
+			flag = true;
+			campos = $('.obligatorio');
+			campos.each(function() 
+			{
+				if(!$(this).val())
+				{
+					flag = false;
+				}
+			}
+			);
+
+			/* Sin embargo, como el campo de "sitio_muestra_id" es generado por
+			medio de AJAX; no entra en la validación anterior. Lo tenemos que
+			validar aparte:*/
+
+			if(!$('#shadow_clone').find('select:first').val())
+			{
+				flag = false;
+				//alert('Falta llenar el sitio');
+			}
+
+			// Lo mismo para el campo de "camara_id":
+
+			if(!$('#shadow_clone_2').find('#camara_id').val())
+			{
+				flag = false;
+				//alert('Falta llenar la cámara');
+			}
+
+			// Verificando que se hayan validado los archivos:
+
+			if(!$('#archivos_validados').val()){
+				flag = false;
+			}
+
+			if(!flag)
+			{
+				alert('Faltó llenar algún campo o pasar la validación de los archivos');
+				return false;
+			}
+		}
+	);
+	
+</script>

@@ -1,0 +1,237 @@
+{{extend 'layout.html'}}
+{{block head}}
+	<style type="text/css">
+
+		.Tabla .generic-widget
+		{
+			margin-right: 2cm;
+			width: 4.4cm;
+		}
+
+		.TablaCONANP .integer
+		{
+			margin-right: 0.25cm;
+			margin-left: 0.25cm;
+			width: 2.5cm;
+			text-align: center;
+		}
+
+		.Centrar
+		{
+			text-align: center;
+		}
+			
+		#enviar
+		{
+			float: left;
+		}
+
+	</style>
+{{end}}
+{{#=response.toolbar()}}
+
+<form action="" enctype="multipart/form-data" method="post">
+	<input type="hidden" name="_formname" value="formaTransectosRamasHTML"/>
+	
+	<fieldset>
+		<legend>
+			Material leñoso caído
+		</legend>
+		<table class="Tabla">
+			<tr>
+				<td>
+					<label for="conglomerado_muestra_id">Conglomerado</label>
+					<!--este campo, en realidad sólo sirve para encontrar
+					con AJAX el sitio adecuado. Al enviar la forma al controlador,
+					se utilizará para guardar los registros del material leñoso
+					caído, únicamente el id del sitio (de la dropdown generada
+					mediante AJAX)-->
+					<select class="generic-widget obligatorio" name="conglomerado_muestra_id" id="conglomerado_muestra_id">
+						<option value=""/>
+						{{for conglomerado in listaConglomerado:}}
+							<option value="{{=conglomerado.id}}">
+								{{=conglomerado.nombre}}
+							</option>
+						{{pass}}
+					</select>
+				</td>
+				<td>
+					<label for="sitio_muestra_id">Sitio</label>
+					<!-- El ID es para cambiar la lista de sitios asociados a un conglomerado dinámicamente, utilizando AJAX-->
+					<div id="shadow_clone">
+						<select class="generic-widget" name="sitio_muestra_id" id="sitio_muestra_id">
+							<option value=""/>
+						</select>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+
+	<hr/>
+
+		<h4>
+			Frecuencias por grosor de material:
+		</h4>
+		<br/>
+		<table class="TablaCONANP">
+			<tr>
+				<th class="Centrar">Transecto</th>
+				<th class="Centrar">Pendiente</th>
+				<th class="Centrar">1h (10-15m)</th>
+				<th class="Centrar">10h (10-15m)</th>
+				<th class="Centrar">100h (0-15m)</th>
+			</tr>
+			<tr>
+				<td>1. Norte</td>
+				<td>
+					<input class="integer obligatorio" name="pendiente_1N" id="pendiente_1N" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_1h_1N" id="abundancia_1h_1N" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_10h_1N" id="abundancia_10h_1N" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_100h_1N" id="abundancia_100h_1N" type="text" value=""/>
+				</td>
+			</tr>
+			<tr>
+				<td>2. Este</td>
+				<td>
+					<input class="integer obligatorio" name="pendiente_2E" id="pendiente_2E" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_1h_2E" id="abundancia_1h_2E" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_10h_2E" id="abundancia_10h_2E" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_100h_2E" id="abundancia_100h_2E" type="text" value=""/>
+				</td>
+			</tr>
+			<tr>
+				<td>3. Sur</td>
+				<td>
+					<input class="integer obligatorio" name="pendiente_3S" id="pendiente_3S" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_1h_3S" id="abundancia_1h_3S" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_10h_3S" id="abundancia_10h_3S" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_100h_3S" id="abundancia_100h_3S" type="text" value=""/>
+				</td>
+			</tr>
+			<tr>
+				<td>4. Oeste</td>
+				<td>
+					<input class="integer obligatorio" name="pendiente_4W" id="pendiente_4W" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_1h_4W" id="abundancia_1h_4W" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_10h_4W" id="abundancia_10h_4W" type="text" value=""/>
+				</td>
+				<td>
+					<input class="integer obligatorio" name="abundancia_100h_4W" id="abundancia_100h_4W" type="text" value=""/>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+
+	<input type="submit" value="Enviar" class="btn FlotaIzquierda"/>
+</form>
+
+
+<script>
+
+
+	//////////////////////////////////////////
+	// AJAX para llenar la combobox con los sitios existentes al elegir el conglomerado
+	//////////////////////////////////////////
+
+	$('#conglomerado_muestra_id').change(
+		function(){
+			$('#sitio_muestra_id').remove();
+
+			//ajax es una función de Web2py que simplifica la función homónima de JQuery
+			//recibe el URL destino, los nombres de los campos que se enviarán y el ID
+			// del elemento donde se insertará la respuesta
+			ajax("{{=URL('asignarSitios')}}", ['conglomerado_muestra_id'], 'shadow_clone');
+		});
+
+	//////////////////////////////////////////
+	// AJAX para evitar que se envíe la información de los transectos
+	// correspondientes a un sitio más de una vez:
+	//////////////////////////////////////////
+
+	$('#shadow_clone').on('change', '#sitio_muestra_id', function (){
+
+		$.ajax
+		({
+			type: "POST",
+			data: $('#sitio_muestra_id').serialize(),
+			url: "{{=URL('transectosExistentes')}}",
+				success: function(resultado)
+				{
+					//alert(resultado);
+					if(resultado>=1)
+					{
+						alert('Los transectos correspondientes a este sitio ya han sido declarados');
+						$('#sitio_muestra_id').val("");
+					}
+				}
+		});
+	}
+	);
+
+	//////////////////////////////////////////
+	// Validaciones a la hora de enviar la forma
+	//////////////////////////////////////////
+
+	$('form').submit
+	(
+		 function()
+		 {
+
+		 	// Validando, para ello utilizamos la clase "obligatorio":
+
+			flag = true;
+			campos = $('.obligatorio');
+			campos.each(function() 
+			{
+				if(!$(this).val())
+				{
+					flag = false;
+				}
+			}
+			);
+
+			/* Sin embargo, como el campo de "sitio_muestra_id" es generado por
+			medio de AJAX; no entra en la validación anterior. Lo tenemos que
+			validar aparte: */
+
+			if(!$('#shadow_clone').find('select:first').val())
+			{
+				flag = false;
+				//alert('Falta llenar el sitio');
+			}
+
+			// Juntando todas las validaciones:
+
+			if(!flag)
+			{
+				alert('Faltó llenar algún campo');
+				return false;
+			}
+
+		}
+	)
+	
+</script>

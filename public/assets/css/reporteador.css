@@ -1,0 +1,77 @@
+/*pagina principal*/
+ html, body {
+                background-color: #fff;
+                color: #00aaff;
+                font-family: 'Raleway', sans-serif;
+                font-weight: bold;
+                height: 100vh;
+                margin: 0;
+            }
+
+            .full-height {
+                height: 100vh;
+            }
+
+            .flex-center {
+                align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+
+            .position-ref {
+                position: relative;
+            }
+
+            .top-right {
+                position: absolute;
+                right: 10px;
+                top: 18px;
+            }
+
+            .content {
+                text-align: center;
+            }
+
+            .title {
+                font-size: 84px;
+            }
+
+            .links > a {
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 12px;
+                font-weight: bold;
+                letter-spacing: .1rem;
+                text-decoration: none;
+                text-transform: uppercase;
+            }
+
+            .m-b-md {
+                margin-bottom: 30px;
+            }
+            .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+             color: #636b6f;
+             font-weight: bold;
+            }
+            .nav-tabs > li > a{
+             color: #636b6f;
+             font-weight: bold;
+            }
+            .tab-content > .active{
+                color:#777777;
+                font-weight: bold;
+            }
+            .tab-content > .active {
+            	color: #a53030;
+                font-weight: bold;
+                text-align: center;
+            }
+            #bienvenido{
+              margin-bottom: 5%;
+            }
+            .header{
+              text-align: -webkit-center;
+            }
+            .title m-b-md{
+            	  font-family: 'Raleway', sans-serif;
+            }
